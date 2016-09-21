@@ -1,4 +1,4 @@
-﻿{
+{
   "dependencies": {
     "Microsoft.NETCore.App": {
       "version": "1.0.0",
@@ -24,7 +24,8 @@
       ]
     },
     "Npgsql.EntityFrameworkCore.PostgreSQL": "1.0.0",
-    "CaseExtensions": "1.0.1"
+    "CaseExtensions": "1.0.1",
+    "Microsoft.AspNetCore.Diagnostics": "1.0.0"
   },
 
   "tools": {

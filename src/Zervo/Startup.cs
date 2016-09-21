@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System.Net;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors.Infrastructure;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -10,6 +12,8 @@ using Zervo.Middlewares;
 using Zervo.Repositories.Database;
 using Zervo.Services;
 using Zervo.Services.Contracts;
+using Microsoft.AspNetCore.Http;
+using Zervo.Helpers;
 
 namespace Zervo
 {
@@ -66,6 +70,24 @@ namespace Zervo
 
             // Enabl CORS
             app.UseCors("AllowAll");
+
+            app.UseExceptionHandler(
+              builder =>
+              {
+                  builder.Run(
+                    async context =>
+                    {
+                        context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                        context.Response.Headers.Add("Access-Control-Allow-Origin", "*");
+
+                        var error = context.Features.Get<IExceptionHandlerFeature>();
+                        if (error != null)
+                        {
+                            context.Response.AddApplicationError(error.Error.Message);
+                            await context.Response.WriteAsync(error.Error.Message).ConfigureAwait(false);
+                        }
+                    });
+              });
 
             // Add middleware
             app.UseMiddleware<MyTimeLoggerMiddleware>();
