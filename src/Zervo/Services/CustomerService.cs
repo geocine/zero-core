@@ -11,16 +11,16 @@ namespace Zervo.Services
 {
     public class CustomerService : ICustomerService
     {
-        private readonly CustomersRepository _customersRepository;
+        private readonly CustomerRepository _customerRepository;
 
         public CustomerService(ZervoContext context)
         {
-            _customersRepository = new CustomersRepository(context);
+            _customerRepository = new CustomerRepository(context);
         }
 
         public IEnumerable<Customer> List()
         {
-            return _customersRepository.GetAll();
+            return _customerRepository.GetAll();
         }
 
         public void Create(Customer model)
