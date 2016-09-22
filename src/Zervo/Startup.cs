@@ -9,7 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Zervo.Middlewares;
-using Zervo.Repositories.Database;
+using Zervo.Data.Repositories.Database;
 using Zervo.Services;
 using Zervo.Services.Contracts;
 using Microsoft.AspNetCore.Http;
@@ -55,7 +55,7 @@ namespace Zervo
                 // DbContext Injected Automatically
                 .AddDbContext<ZervoContext>(options =>
                 {
-                    options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("Zervo"));
+                    options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("Zervo.Data"));
                 });
 
             // Add framework services.

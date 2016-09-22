@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Zervo.Migrations
+namespace Zervo.Data.Migrations
 {
     public partial class Initial : Migration
     {

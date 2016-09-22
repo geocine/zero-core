@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
-using Zervo.Models;
-using Zervo.Repositories.Contracts;
-using Zervo.Repositories.Database;
+﻿using Zervo.Data.Models;
+using Zervo.Data.Repositories.Contracts;
+using Zervo.Data.Repositories.Database;
 
-namespace Zervo.Repositories
+namespace Zervo.Data.Repositories
 {
     public class CustomerRepository : EntityBaseRepository<Customer> , ICustomerRepository
     {

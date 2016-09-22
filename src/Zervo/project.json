@@ -4,6 +4,7 @@
       "version": "1.0.0",
       "type": "platform"
     },
+    "Zervo.Data": "1.0.0-*",
     "Microsoft.AspNetCore.Mvc": "1.0.0",
     "Microsoft.AspNetCore.Server.IISIntegration": "1.0.0",
     "Microsoft.AspNetCore.Server.Kestrel": "1.0.0",
@@ -14,7 +15,10 @@
     "Microsoft.Extensions.Logging.Console": "1.0.0",
     "Microsoft.Extensions.Logging.Debug": "1.0.0",
     "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0",
-    "Microsoft.EntityFrameworkCore": "1.0.0",
+    "Microsoft.AspNetCore.Diagnostics": "1.0.0",
+    "Microsoft.EntityFrameworkCore": "1.0.1",
+    "Microsoft.EntityFrameworkCore.Relational": "1.0.1",
+    "Npgsql.EntityFrameworkCore.PostgreSQL": "1.0.0",
     "Microsoft.EntityFrameworkCore.Design": "1.0.0-preview2-final",
     "Microsoft.EntityFrameworkCore.Tools": {
       "version": "1.0.0-preview1-final",
@@ -22,10 +26,7 @@
         "portable-net45+win8+dnxcore50",
         "portable-net45+win8"
       ]
-    },
-    "Npgsql.EntityFrameworkCore.PostgreSQL": "1.0.0",
-    "CaseExtensions": "1.0.1",
-    "Microsoft.AspNetCore.Diagnostics": "1.0.0"
+    }
   },
 
   "tools": {

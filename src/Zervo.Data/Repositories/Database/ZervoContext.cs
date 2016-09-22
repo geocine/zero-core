@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using CaseExtensions;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
-using Zervo.Models;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Zervo.Data.Models;
+using CaseExtensions;
+using System.Linq;
 
-namespace Zervo.Repositories.Database
+namespace Zervo.Data.Repositories.Database
 {
     public class ZervoContext : DbContext
     {

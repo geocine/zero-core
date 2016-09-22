@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Zervo.Models;
-using Zervo.Repositories;
-using Zervo.Repositories.Database;
+using Zervo.Data.Models;
+using Zervo.Data.Repositories;
+using Zervo.Data.Repositories.Database;
 using Zervo.Services.Contracts;
 
 namespace Zervo.Services

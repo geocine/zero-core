@@ -1,21 +1,17 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
-using Zervo.Repositories.Database;
+using Zervo.Data.Repositories.Database;
 
-namespace Zervo.Migrations
+namespace Zervo.Data.Migrations
 {
     [DbContext(typeof(ZervoContext))]
-    [Migration("20160918083236_Initial")]
-    partial class Initial
+    partial class ZervoContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.0-rtm-21431");
-
+                
             modelBuilder.Entity("Zervo.Models.Customer", b =>
                 {
                     b.Property<int>("Id")

@@ -1,6 +1,6 @@
-﻿using Zervo.Repositories.Contracts;
+﻿using Zervo.Data.Repositories.Contracts;
 
-namespace Zervo.Models
+namespace Zervo.Data.Models
 {
     public class Customer : IEntityBase
     {

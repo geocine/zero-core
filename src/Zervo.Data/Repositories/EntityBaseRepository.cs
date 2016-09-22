@@ -1,14 +1,13 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Zervo.Repositories.Contracts;
-using Zervo.Repositories.Database;
+using Zervo.Data.Repositories.Contracts;
+using Zervo.Data.Repositories.Database;
 
-namespace Zervo.Repositories
+namespace Zervo.Data.Repositories
 {
     public class EntityBaseRepository<T> : IEntityBaseRepository<T>
             where T : class, IEntityBase, new()
