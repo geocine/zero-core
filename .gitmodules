@@ -1,0 +1,3 @@
+[submodule "src/Fractore"]
+	path = src/Fractore
+	url = git@github.com:geocine/fractore.git
