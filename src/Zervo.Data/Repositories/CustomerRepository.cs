@@ -1,4 +1,7 @@
-﻿using Zervo.Data.Models;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using Zervo.Data.Models;
 using Zervo.Data.Repositories.Contracts;
 using Zervo.Data.Repositories.Database;
 
@@ -12,6 +15,11 @@ namespace Zervo.Data.Repositories
             : base(context)
         {
             _context = context;
+        }
+
+        public override IEnumerable<Customer> GetAll()
+        {
+            return _context.Set<Customer>().Include(x => x.Person).AsEnumerable();
         }
 
     }

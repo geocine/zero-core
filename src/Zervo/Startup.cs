@@ -55,7 +55,8 @@ namespace Zervo
                 // DbContext Injected Automatically
                 .AddDbContext<ZervoContext>(options =>
                 {
-                    options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("Zervo.Data"));
+                    options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"),
+                        b => b.MigrationsAssembly("Zervo.Data"));
                 });
 
             // Add framework services.

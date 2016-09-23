@@ -1,12 +1,13 @@
-﻿using Zervo.Data.Repositories.Contracts;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Zervo.Data.Repositories.Contracts;
 
 namespace Zervo.Data.Models
 {
-    public class Customer : IEntityBase
+    public class Customer : EntityBase
     {
-        public int Id { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        
+        public int PersonId { get; set; }
+        public Person Person { get; set; }
     }
 }
