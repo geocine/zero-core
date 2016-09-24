@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using Zervo.Core.Services.Contracts;
-using Zervo.Data.Models;
 using Zervo.Data.Repositories;
 using Zervo.Data.Repositories.Database;
+using System.Linq;
+using Zervo.Core.Models;
 
 namespace Zervo.Core.Services
 {
@@ -18,7 +19,17 @@ namespace Zervo.Core.Services
 
         public IEnumerable<Customer> List()
         {
-            return _customerRepository.GetAll();
+            // Need to use automapper here
+            var customers = _customerRepository.GetAll();
+            // Also add the employee id x.Id
+            var customerList = customers.Select(x => new Customer
+            {
+                Id = x.Id,
+                FirstName = x.Person.FirstName,
+                LastName = x.Person.LastName,
+                Email = x.Person.Email
+            }).ToList();
+            return customerList;
         }
 
         public void Create(Customer model)

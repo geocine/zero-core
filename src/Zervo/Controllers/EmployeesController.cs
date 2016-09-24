@@ -21,8 +21,8 @@ namespace Zervo.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            var customers = _employeeService.List().Select(x => x.Person).ToList();
-            return Ok(customers);
+            var employees = _employeeService.List();
+            return Ok(employees);
         }
     }
 }

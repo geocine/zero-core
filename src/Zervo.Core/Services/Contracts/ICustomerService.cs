@@ -1,4 +1,4 @@
-﻿using Zervo.Data.Models;
+﻿using Zervo.Core.Models;
 
 namespace Zervo.Core.Services.Contracts
 {

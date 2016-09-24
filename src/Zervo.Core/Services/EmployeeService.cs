@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using Zervo.Core.Models;
 using Zervo.Core.Services.Contracts;
-using Zervo.Data.Models;
 using Zervo.Data.Repositories;
 using Zervo.Data.Repositories.Database;
 
@@ -18,7 +19,18 @@ namespace Zervo.Core.Services
 
         public IEnumerable<Employee> List()
         {
-            return _employeeRepository.GetAll();
+            // Need to use automapper here
+            var employees = _employeeRepository.GetAll();
+            // Also add the employee id x.Id
+            var employeeList = employees.Select(x => new Employee
+            {
+                Id = x.Id,
+                FirstName = x.Person.FirstName,
+                LastName = x.Person.LastName,
+                Email = x.Person.Email,
+                HourlyWage = x.HourlyWage
+            }).ToList();
+            return employeeList;
         }
 
         public void Create(Employee model)
