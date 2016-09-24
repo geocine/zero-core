@@ -13,10 +13,16 @@ namespace Zervo.Data.Models
         public string FirstName { get; set; }
         public string Email { get; set; }
 
-        // needs mscorlib but can be solved by adding
-        // Microsoft.NETCore.Portable.Compatibility
-        // ignored as only used for one-to-one relationship
+        /*
+         * needs mscorlib but can be solved by adding
+         * Microsoft.NETCore.Portable.Compatibility
+         * ignored as only used for one-to-one relationship
+         * shall later be separated to Fractore
+         */
         [JsonIgnore]
         public Customer Customer { get; set; }
+
+        [JsonIgnore]
+        public Employee Employee { get; set; }
     }
 }

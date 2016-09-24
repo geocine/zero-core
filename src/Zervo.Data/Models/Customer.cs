@@ -7,6 +7,7 @@ namespace Zervo.Data.Models
 {
     public class Customer : EntityBase
     {
+        // one-to-one
         public int PersonId { get; set; }
         public Person Person { get; set; }
     }

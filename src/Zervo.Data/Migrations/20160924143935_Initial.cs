@@ -42,9 +42,35 @@ namespace Zervo.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "employees",
+                columns: table => new
+                {
+                    id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGeneratedOnAdd", true),
+                    hourly_wage = table.Column<float>(nullable: false),
+                    person_id = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_employees", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_employees_people_person_id",
+                        column: x => x.person_id,
+                        principalTable: "people",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_customers_person_id",
                 table: "customers",
+                column: "person_id",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_employees_person_id",
+                table: "employees",
                 column: "person_id",
                 unique: true);
         }
@@ -53,6 +79,9 @@ namespace Zervo.Data.Migrations
         {
             migrationBuilder.DropTable(
                 name: "customers");
+
+            migrationBuilder.DropTable(
+                name: "employees");
 
             migrationBuilder.DropTable(
                 name: "people");

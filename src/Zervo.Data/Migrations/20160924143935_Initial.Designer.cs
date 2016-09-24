@@ -8,7 +8,7 @@ using Zervo.Data.Repositories.Database;
 namespace Zervo.Data.Migrations
 {
     [DbContext(typeof(ZervoContext))]
-    [Migration("20160923191604_Initial")]
+    [Migration("20160924143935_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,6 +31,26 @@ namespace Zervo.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("customers");
+                });
+
+            modelBuilder.Entity("Zervo.Data.Models.Employee", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id");
+
+                    b.Property<float>("HourlyWage")
+                        .HasColumnName("hourly_wage");
+
+                    b.Property<int>("PersonId")
+                        .HasColumnName("person_id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PersonId")
+                        .IsUnique();
+
+                    b.ToTable("employees");
                 });
 
             modelBuilder.Entity("Zervo.Data.Models.Person", b =>
@@ -58,6 +78,14 @@ namespace Zervo.Data.Migrations
                     b.HasOne("Zervo.Data.Models.Person", "Person")
                         .WithOne("Customer")
                         .HasForeignKey("Zervo.Data.Models.Customer", "PersonId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Zervo.Data.Models.Employee", b =>
+                {
+                    b.HasOne("Zervo.Data.Models.Person", "Person")
+                        .WithOne("Employee")
+                        .HasForeignKey("Zervo.Data.Models.Employee", "PersonId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
         }

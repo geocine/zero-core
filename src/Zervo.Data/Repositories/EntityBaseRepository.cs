@@ -9,8 +9,7 @@ using Zervo.Data.Repositories.Database;
 
 namespace Zervo.Data.Repositories
 {
-    public class EntityBaseRepository<T> : IEntityBaseRepository<T>
-            where T : class, IEntityBase, new()
+    public class EntityBaseRepository<T> : IEntityBaseRepository<T> where T : class, IEntityBase, new()
     {
 
         private readonly ZervoContext _context;

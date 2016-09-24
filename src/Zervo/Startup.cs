@@ -10,9 +10,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Zervo.Middlewares;
 using Zervo.Data.Repositories.Database;
-using Zervo.Services;
-using Zervo.Services.Contracts;
 using Microsoft.AspNetCore.Http;
+using Zervo.Core.Services;
+using Zervo.Core.Services.Contracts;
 using Zervo.Helpers;
 
 namespace Zervo
@@ -48,6 +48,7 @@ namespace Zervo
 
             // Add dependency injection
             services.AddTransient<ICustomerService, CustomerService>();
+            services.AddTransient<IEmployeeService, EmployeeService>();
 
             // Configure EntityFramework / PostgreSQL
             services

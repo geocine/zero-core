@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Zervo.Data.Repositories.Contracts
 {
-    public interface ICustomerRepository
+    public interface IRepositoryBase
     {
     }
 }

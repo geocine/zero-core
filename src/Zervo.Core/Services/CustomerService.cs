@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Zervo.Core.Services.Contracts;
 using Zervo.Data.Models;
 using Zervo.Data.Repositories;
 using Zervo.Data.Repositories.Database;
-using Zervo.Services.Contracts;
 
-namespace Zervo.Services
+namespace Zervo.Core.Services
 {
     public class CustomerService : ICustomerService
     {
