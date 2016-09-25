@@ -6,7 +6,7 @@ using Zervo.Core.Models.Contracts;
 
 namespace Zervo.Core.Models
 {
-    public class Employee : ObjectBase, IObjectModel
+    public class Employee : ObjectModel, IObjectModel
     {
         public string LastName { get; set; }
         public string FirstName { get; set; }

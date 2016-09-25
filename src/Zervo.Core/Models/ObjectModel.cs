@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Zervo.Data.Repositories.Contracts
+namespace Zervo.Core.Models
 {
-    public abstract class EntityBase : IEntityBase
+    public class ObjectModel
     {
         public int Id { get; set; }
     }

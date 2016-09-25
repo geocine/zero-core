@@ -8,7 +8,7 @@ using Zervo.Data.Repositories.Database;
 
 namespace Zervo.Core.Services
 {
-    public class EmployeeService : IEmployeeService
+    public class EmployeeService : Service<Employee>, IEmployeeService
     {
         private readonly EmployeeRepository _employeeRepository;
 
@@ -17,7 +17,7 @@ namespace Zervo.Core.Services
             _employeeRepository = new EmployeeRepository(context);
         }
 
-        public IEnumerable<Employee> List()
+        public override IEnumerable<Employee> List()
         {
             // Need to use automapper here
             var employees = _employeeRepository.GetAll();
@@ -33,14 +33,5 @@ namespace Zervo.Core.Services
             return employeeList;
         }
 
-        public void Create(Employee model)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

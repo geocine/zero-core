@@ -7,7 +7,7 @@ using Zervo.Data.Repositories.Contracts;
 
 namespace Zervo.Data.Models
 {
-    public class Person : EntityBase
+    public class Person : Entity
     {
         public string LastName { get; set; }
         public string FirstName { get; set; }

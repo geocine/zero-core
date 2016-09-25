@@ -7,7 +7,7 @@ using Zervo.Data.Repositories.Database;
 
 namespace Zervo.Data.Repositories
 {
-    public class CustomerRepository : EntityBaseRepository<Customer> , ICustomerRepository
+    public class CustomerRepository : Repository<Customer> , ICustomerRepository
     {
         private readonly ZervoContext _context;
 

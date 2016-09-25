@@ -4,22 +4,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Zervo.Data.Infrastructure;
 using Zervo.Data.Repositories.Contracts;
 using Zervo.Data.Repositories.Database;
 
 namespace Zervo.Data.Repositories
 {
-    public class EntityBaseRepository<T> : IEntityBaseRepository<T> where T : class, IEntityBase, new()
+    public class Repository<T> : IRepository<T> where T : class, IEntity
     {
 
         private readonly ZervoContext _context;
 
         #region Properties
-        public EntityBaseRepository(ZervoContext context)
+        public Repository(ZervoContext context)
         {
             _context = context;
         }
         #endregion
+
         public virtual IEnumerable<T> GetAll()
         {
             return _context.Set<T>().AsEnumerable();
@@ -76,6 +78,7 @@ namespace Zervo.Data.Repositories
             EntityEntry dbEntityEntry = _context.Entry<T>(entity);
             dbEntityEntry.State = EntityState.Modified;
         }
+
         public virtual void Delete(T entity)
         {
             EntityEntry dbEntityEntry = _context.Entry<T>(entity);

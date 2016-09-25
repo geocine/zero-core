@@ -5,7 +5,7 @@ using Zervo.Data.Repositories.Contracts;
 
 namespace Zervo.Data.Models
 {
-    public class Customer : EntityBase
+    public class Customer : Entity
     {
         // one-to-one
         public int PersonId { get; set; }

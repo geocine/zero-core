@@ -8,7 +8,7 @@ using Zervo.Core.Models;
 
 namespace Zervo.Core.Services
 {
-    public class CustomerService : ICustomerService
+    public class CustomerService : Service<Customer> , ICustomerService
     {
         private readonly CustomerRepository _customerRepository;
 
@@ -17,7 +17,7 @@ namespace Zervo.Core.Services
             _customerRepository = new CustomerRepository(context);
         }
 
-        public IEnumerable<Customer> List()
+        public override IEnumerable<Customer> List()
         {
             // Need to use automapper here
             var customers = _customerRepository.GetAll();
@@ -32,14 +32,5 @@ namespace Zervo.Core.Services
             return customerList;
         }
 
-        public void Create(Customer model)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
