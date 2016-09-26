@@ -12,7 +12,7 @@ namespace Zervo.Core.Services.Contracts
     {
         public virtual void Create(TEntity model)
         {
-            throw new NotImplementedException();
+            
         }
 
         public virtual void Delete(int id)

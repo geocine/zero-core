@@ -11,8 +11,5 @@ namespace Zervo.Data.Repositories.Contracts
         int SaveChanges();
         void Dispose(bool disposing);
         IRepository<TEntity> Repository<TEntity>() where TEntity : class, IEntity;
-        void BeginTransaction(IsolationLevel isolationLevel = IsolationLevel.Unspecified);
-        bool Commit();
-        void Rollback();
     }
 }

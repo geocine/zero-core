@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Zervo.Core.Services.Contracts;
+using Zervo.Models;
 
 namespace Zervo.Controllers
 {
@@ -34,8 +35,15 @@ namespace Zervo.Controllers
 
         // POST api/customers
         [HttpPost]
-        public void Post([FromBody]string value)
+        public void Post([FromBody]Customer customer)
         {
+            var customerModel = new Core.Models.Customer()
+            {
+                FirstName = customer.FirstName,
+                LastName = customer.LastName,
+                Email = customer.Email
+            };
+            _customerService.Create(customerModel);
         }
 
         // PUT api/customers/5

@@ -5,6 +5,7 @@ using System.Data.Common;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Zervo.Data.Exceptions;
 
 namespace Zervo.Data.Repositories.Contracts
 {
@@ -13,18 +14,17 @@ namespace Zervo.Data.Repositories.Contracts
         #region Private Fields
 
         private IDataContext _dataContext;
-        private bool _disposed;
-        private DbTransaction _transaction;
-        private Dictionary<string, dynamic> _repositories;
+        private readonly IServiceProvider _serviceProvider;
+        private bool _isDisposed;
 
         #endregion Private Fields
 
         #region Constuctor/Dispose
 
-        public UnitOfWork(IDataContext dataContext)
+        public UnitOfWork(IDataContext dataContext, IServiceProvider serviceProvider)
         {
             _dataContext = dataContext;
-            _repositories = new Dictionary<string, dynamic>();
+            _serviceProvider = serviceProvider;
         }
 
         public void Dispose()
@@ -35,13 +35,11 @@ namespace Zervo.Data.Repositories.Contracts
 
         public virtual void Dispose(bool disposing)
         {
-            if (_disposed)
+            if (_isDisposed)
                 return;
 
             if (disposing)
             {
-                // free other managed objects that implement
-                // IDisposable only
 
                 if (_dataContext != null)
                 {
@@ -50,27 +48,28 @@ namespace Zervo.Data.Repositories.Contracts
                 }
             }
 
-            // release any unmanaged objects
-            // set the object references to null
-
-            _disposed = true;
+            _isDisposed = true;
         }
 
         #endregion Constuctor/Dispose
 
         public int SaveChanges()
         {
+            CheckDisposed();
             return _dataContext.SaveChanges();
         }
 
         public IRepository<TEntity> Repository<TEntity>() where TEntity : class, IEntity
         {
-            //if (ServiceLocator.IsLocationProviderSet)
-            //{
-            //    return ServiceLocator.Current.GetInstance<IRepository<TEntity>>();
-            //}
+            CheckDisposed();
+            var repositoryType = typeof(IRepository<TEntity>);
+            var repository = (IRepository<TEntity>)_serviceProvider.GetService(repositoryType);
+            if (repository == null)
+            {
+                throw new RepositoryNotFoundException(repositoryType.Name, String.Format("Repository {0} not found in the IOC container. Check if it is registered during startup.", repositoryType.Name));
+            }
 
-            return RepositoryAsync<TEntity>();
+            return repository;
         }
 
         public Task<int> SaveChangesAsync()
@@ -82,58 +81,10 @@ namespace Zervo.Data.Repositories.Contracts
         {
             return _dataContext.SaveChangesAsync(cancellationToken);
         }
-        public IRepository<TEntity> RepositoryAsync<TEntity>() where TEntity : class, IEntity
+
+        protected void CheckDisposed()
         {
-            //provide
-            //if (ServiceLocator.IsLocationProviderSet)
-            //{
-            //    return ServiceLocator.Current.GetInstance<IRepository<TEntity>>();
-            //}
-
-            if (_repositories == null)
-            {
-                _repositories = new Dictionary<string, dynamic>();
-            }
-
-            var type = typeof(TEntity).Name;
-
-            if (_repositories.ContainsKey(type))
-            {
-                return (IRepository<TEntity>)_repositories[type];
-            }
-
-            var repositoryType = typeof(Repository<>);
-
-            _repositories.Add(type, Activator.CreateInstance(repositoryType.MakeGenericType(typeof(TEntity)), _dataContext, this));
-
-            return _repositories[type];
+            if (_isDisposed) throw new ObjectDisposedException("The UnitOfWork is already disposed and cannot be used anymore.");
         }
-
-        #region Unit of Work Transactions
-
-        public void BeginTransaction(IsolationLevel isolationLevel = IsolationLevel.Unspecified)
-        {
-            //_objectContext = ((IObjectContextAdapter)_dataContext).ObjectContext;
-            //if (_objectContext.Connection.State != ConnectionState.Open)
-            //{
-            //    _objectContext.Connection.Open();
-            //}
-
-            //_transaction = _dataContext.Database.Connection.BeginTransaction(isolationLevel);
-        }
-
-        public bool Commit()
-        {
-            _transaction.Commit();
-            return true;
-        }
-
-        public void Rollback()
-        {
-            _transaction.Rollback();
-            _dataContext.SyncObjectsStatePostCommit();
-        }
-
-        #endregion
     }
 }

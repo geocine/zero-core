@@ -17,10 +17,12 @@ namespace Zervo.Data.Repositories.Contracts
         TEntity GetSingle(Expression<Func<TEntity, bool>> predicate, params Expression<Func<TEntity, object>>[] includeProperties);
         IEnumerable<TEntity> FindBy(Expression<Func<TEntity, bool>> predicate);
         void Add(TEntity entity);
+        void AddRange(IEnumerable<TEntity> entities);
         void Update(TEntity entity);
-        void Delete(TEntity entity);
+        void Delete(int id);
         void DeleteWhere(Expression<Func<TEntity, bool>> predicate);
         IRepository<T> GetRepository<T>() where T : class, IEntity;
         IQueryable<TEntity> Queryable();
+        void SaveChanges();
     }
 }

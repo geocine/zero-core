@@ -12,6 +12,5 @@ namespace Zervo.Data.Repositories.Contracts
         Task<int> SaveChangesAsync();
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
         void SyncObjectState<TEntity>(TEntity entity) where TEntity : class, IEntity;
-        void SyncObjectsStatePostCommit();
     }
 }

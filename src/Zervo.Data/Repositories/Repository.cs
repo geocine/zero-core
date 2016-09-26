@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Runtime.Serialization;
@@ -11,7 +12,7 @@ using Zervo.Data.Repositories.Database;
 
 namespace Zervo.Data.Repositories
 {
-    public class Repository<TEntity> : IRepository<TEntity> where TEntity : class, IEntity
+    public class Repository<TEntity> : IRepository<TEntity> where TEntity : class, IEntity, new()
     {
 
         private readonly IDataContext _context;
@@ -89,23 +90,38 @@ namespace Zervo.Data.Repositories
 
         public virtual void Add(TEntity entity)
         {
-            //EntityEntry dbEntityEntry = _context.Entry<TEntity>(entity);
-            //_dbSet.Add(entity);
+            //entity.ObjectState = ObjectState.Added;
+            //_dbSet.Attach(entity);
+            //_context.SyncObjectState(entity);
+            _dbSet.Add(entity);
+            _context.SaveChanges();
+        }
+
+        public virtual void AddRange(IEnumerable<TEntity> entities)
+        {
+            foreach (var entity in entities)
+            {
+                Add(entity);
+            }
         }
 
         public virtual void Update(TEntity entity)
         {
-            //EntityEntry dbEntityEntry = _context.Entry<TEntity>(entity);
-            //dbEntityEntry.State = EntityState.Modified;
             entity.ObjectState = ObjectState.Modified;
             _dbSet.Attach(entity);
             _context.SyncObjectState(entity);
         }
 
+        public virtual void Delete(int id)
+        {
+            var entity = new TEntity() { Id = id };
+            Delete(entity);
+        }
         public virtual void Delete(TEntity entity)
         {
-            //EntityEntry dbEntityEntry = _context.Entry<T>(entity);
-            //dbEntityEntry.State = EntityState.Deleted;
+            entity.ObjectState = ObjectState.Deleted;
+            _dbSet.Attach(entity);
+            _context.SyncObjectState(entity);
         }
 
         public virtual void DeleteWhere(Expression<Func<TEntity, bool>> predicate)
@@ -114,7 +130,7 @@ namespace Zervo.Data.Repositories
 
             foreach (var entity in entities)
             {
-                //_context.Entry<TEntity>(entity).State = EntityState.Deleted;
+                Delete(entity);
             }
         }
 
@@ -126,6 +142,11 @@ namespace Zervo.Data.Repositories
         public IQueryable<TEntity> Queryable()
         {
             return _dbSet;
+        }
+
+        public void SaveChanges()
+        {
+            _unitOfWork.SaveChanges();
         }
     }
 }

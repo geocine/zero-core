@@ -11,17 +11,17 @@ namespace Zervo.Core.Services
 {
     public class EmployeeService : Service<Employee>, IEmployeeService
     {
-        private readonly IRepository<Data.Models.Employee> _employeeRepository;
+        private readonly IRepository<Data.Models.Employee> _repository;
 
-        public EmployeeService(IRepository<Data.Models.Employee> employeeRepository)
+        public EmployeeService(IRepository<Data.Models.Employee> repository)
         {
-            _employeeRepository = employeeRepository;
+            _repository = repository;
         }
 
         public override IEnumerable<Employee> List()
         {
             // Need to use automapper here
-            var employees = _employeeRepository.GetAllDetails();
+            var employees = _repository.GetAllDetails();
             // Also add the employee id x.Id
             var employeeList = employees.Select(x => new Employee
             {

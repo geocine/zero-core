@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -19,9 +20,11 @@ namespace Zervo.Data.Models
          * ignored as only used for one-to-one relationship
          * shall later be separated to Fractore
          */
+        [NotMapped]
         [JsonIgnore]
         public Customer Customer { get; set; }
 
+        [NotMapped]
         [JsonIgnore]
         public Employee Employee { get; set; }
     }
