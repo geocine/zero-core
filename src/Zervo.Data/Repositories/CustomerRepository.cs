@@ -1,26 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
-using Microsoft.EntityFrameworkCore;
 using Zervo.Data.Models;
 using Zervo.Data.Repositories.Contracts;
-using Zervo.Data.Repositories.Database;
 
 namespace Zervo.Data.Repositories
 {
-    public class CustomerRepository : Repository<Customer> , ICustomerRepository
+    public static class CustomerRepository
     {
-        private readonly ZervoContext _context;
-
-        public CustomerRepository(ZervoContext context)
-            : base(context)
+        public static IEnumerable<Customer> GetAllDetails(this IRepository<Customer> repository)
         {
-            _context = context;
+            return repository
+                .Queryable()
+                .Include(x => x.Person).AsEnumerable();
         }
-
-        public override IEnumerable<Customer> GetAll()
-        {
-            return _context.Set<Customer>().Include(x => x.Person).AsEnumerable();
-        }
-
     }
 }

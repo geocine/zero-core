@@ -20,6 +20,7 @@ namespace Zervo.Data.Repositories.Contracts
         void Update(TEntity entity);
         void Delete(TEntity entity);
         void DeleteWhere(Expression<Func<TEntity, bool>> predicate);
-        void Commit();
+        IRepository<T> GetRepository<T>() where T : class, IEntity;
+        IQueryable<TEntity> Queryable();
     }
 }

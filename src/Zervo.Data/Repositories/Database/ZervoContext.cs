@@ -5,10 +5,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Zervo.Data.Models;
 using CaseExtensions;
 using System.Linq;
+using Zervo.Data.Repositories.Contracts;
 
 namespace Zervo.Data.Repositories.Database
 {
-    public class ZervoContext : DbContext
+    public class ZervoContext : DataContext<ZervoContext>
     {
 
         public ZervoContext(DbContextOptions<ZervoContext> options)
@@ -53,6 +54,7 @@ namespace Zervo.Data.Repositories.Database
                 .HasOne(p => p.Employee)
                 .WithOne(i => i.Person)
                 .HasForeignKey<Employee>(p => p.PersonId);
+
         }
     }
 }

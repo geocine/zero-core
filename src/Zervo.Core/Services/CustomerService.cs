@@ -5,22 +5,23 @@ using Zervo.Data.Repositories;
 using Zervo.Data.Repositories.Database;
 using System.Linq;
 using Zervo.Core.Models;
+using Zervo.Data.Repositories.Contracts;
 
 namespace Zervo.Core.Services
 {
     public class CustomerService : Service<Customer> , ICustomerService
     {
-        private readonly CustomerRepository _customerRepository;
+        private readonly IRepository<Data.Models.Customer> _customerRepository;
 
-        public CustomerService(ZervoContext context)
+        public CustomerService(IRepository<Data.Models.Customer> customerRepository )
         {
-            _customerRepository = new CustomerRepository(context);
+            _customerRepository = customerRepository;
         }
 
         public override IEnumerable<Customer> List()
         {
             // Need to use automapper here
-            var customers = _customerRepository.GetAll();
+            var customers = _customerRepository.GetAllDetails();
             // Also add the employee id x.Id
             var customerList = customers.Select(x => new Customer
             {

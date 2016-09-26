@@ -4,23 +4,24 @@ using System.Linq;
 using Zervo.Core.Models;
 using Zervo.Core.Services.Contracts;
 using Zervo.Data.Repositories;
+using Zervo.Data.Repositories.Contracts;
 using Zervo.Data.Repositories.Database;
 
 namespace Zervo.Core.Services
 {
     public class EmployeeService : Service<Employee>, IEmployeeService
     {
-        private readonly EmployeeRepository _employeeRepository;
+        private readonly IRepository<Data.Models.Employee> _employeeRepository;
 
-        public EmployeeService(ZervoContext context)
+        public EmployeeService(IRepository<Data.Models.Employee> employeeRepository)
         {
-            _employeeRepository = new EmployeeRepository(context);
+            _employeeRepository = employeeRepository;
         }
 
         public override IEnumerable<Employee> List()
         {
             // Need to use automapper here
-            var employees = _employeeRepository.GetAll();
+            var employees = _employeeRepository.GetAllDetails();
             // Also add the employee id x.Id
             var employeeList = employees.Select(x => new Employee
             {

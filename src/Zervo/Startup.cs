@@ -13,6 +13,8 @@ using Zervo.Data.Repositories.Database;
 using Microsoft.AspNetCore.Http;
 using Zervo.Core.Services;
 using Zervo.Core.Services.Contracts;
+using Zervo.Data.Repositories;
+using Zervo.Data.Repositories.Contracts;
 using Zervo.Helpers;
 
 namespace Zervo
@@ -47,6 +49,9 @@ namespace Zervo
             });
 
             // Add dependency injection
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IDataContext, ZervoContext>();
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddTransient<ICustomerService, CustomerService>();
             services.AddTransient<IEmployeeService, EmployeeService>();
 
