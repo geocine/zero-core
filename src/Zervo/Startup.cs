@@ -16,6 +16,7 @@ using Zervo.Core.Services.Contracts;
 using Zervo.Data.Repositories;
 using Zervo.Data.Repositories.Contracts;
 using Zervo.Helpers;
+using AutoMapper;
 
 namespace Zervo
 {
@@ -67,6 +68,9 @@ namespace Zervo
 
             // Add framework services.
             services.AddMvc();
+
+            // Add Automapper
+            services.AddAutoMapper();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

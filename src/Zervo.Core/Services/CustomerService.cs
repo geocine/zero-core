@@ -4,48 +4,35 @@ using Zervo.Core.Services.Contracts;
 using Zervo.Data.Repositories;
 using Zervo.Data.Repositories.Database;
 using System.Linq;
+using AutoMapper;
+using Zervo.Core.Models;
 using Zervo.Data.Models;
 using Zervo.Data.Repositories.Contracts;
-using Customer = Zervo.Core.Models.Customer;
 
 namespace Zervo.Core.Services
 {
-    public class CustomerService : Service<Customer> , ICustomerService
+    public class CustomerService : Service<CustomerObjectModel> , ICustomerService
     {
-        private readonly IRepository<Data.Models.Customer> _repository;
+        private readonly IRepository<Customer> _repository;
+        private readonly IMapper _mapper;
 
-        public CustomerService(IRepository<Data.Models.Customer> repository )
+        public CustomerService(IMapper mapper, IRepository<Customer> repository )
         {
             _repository = repository;
+            _mapper = mapper;
         }
 
-        public override void Create(Customer customer)
+        public override void Create(CustomerObjectModel customer)
         {
-            var customerModel = new Data.Models.Customer()
-            {
-                Person = new Person()
-                {
-                    FirstName = customer.FirstName,
-                    LastName = customer.LastName,
-                    Email = customer.Email
-                }
-            };
+            var customerModel = _mapper.Map<CustomerObjectModel, Customer>(customer);
             _repository.Add(customerModel);
             _repository.SaveChanges();
         }
 
-        public override IEnumerable<Customer> List()
+        public override IEnumerable<CustomerObjectModel> List()
         {
-            // Need to use automapper here
             var customers = _repository.GetAllDetails();
-            // Also add the employee id x.Id
-            var customerList = customers.Select(x => new Customer
-            {
-                Id = x.Id,
-                FirstName = x.Person.FirstName,
-                LastName = x.Person.LastName,
-                Email = x.Person.Email
-            }).ToList();
+            var customerList = customers.Select(x => _mapper.Map<Customer, CustomerObjectModel>(x)).ToList();
             return customerList;
         }
 

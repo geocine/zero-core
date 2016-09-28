@@ -2,15 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Zervo.Core.Models.Contracts;
 
-namespace Zervo.Core.Models
+namespace Zervo.Models
 {
-    public class Employee : ObjectModel, IObjectModel
+    public class CustomerModel
     {
         public string LastName { get; set; }
         public string FirstName { get; set; }
         public string Email { get; set; }
-        public float HourlyWage { get; set; }
     }
 }

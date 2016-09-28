@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Zervo.Core.Models;
 using Zervo.Core.Services.Contracts;
 using Zervo.Models;
 
@@ -12,10 +14,12 @@ namespace Zervo.Controllers
     public class CustomersController : Controller
     {
         private readonly ICustomerService _customerService;
+        private readonly IMapper _mapper;
 
-        public CustomersController(ICustomerService customerService)
+        public CustomersController(IMapper mapper, ICustomerService customerService)
         {
             _customerService = customerService;
+            _mapper = mapper;
         }
 
         // GET api/customers
@@ -35,14 +39,9 @@ namespace Zervo.Controllers
 
         // POST api/customers
         [HttpPost]
-        public void Post([FromBody]Customer customer)
+        public void Post([FromBody]CustomerModel customer)
         {
-            var customerModel = new Core.Models.Customer()
-            {
-                FirstName = customer.FirstName,
-                LastName = customer.LastName,
-                Email = customer.Email
-            };
+            var customerModel = _mapper.Map<CustomerModel, CustomerObjectModel>(customer);
             _customerService.Create(customerModel);
         }
 

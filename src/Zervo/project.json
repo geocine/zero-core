@@ -27,7 +27,8 @@
         "portable-net45+win8"
       ]
     },
-    "AutoMapper": "5.1.1"
+    "AutoMapper": "5.1.1",
+    "AutoMapper.Extensions.Microsoft.DependencyInjection": "1.1.2"
   },
 
   "tools": {

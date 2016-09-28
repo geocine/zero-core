@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using Newtonsoft.Json;
 using Zervo.Data.Repositories.Contracts;
 
@@ -15,7 +11,7 @@ namespace Zervo.Data.Models
         public string Email { get; set; }
 
         /*
-         * needs mscorlib but can be solved by adding
+         * JsonIgnore needs mscorlib but can be solved by adding
          * Microsoft.NETCore.Portable.Compatibility
          * ignored as only used for one-to-one relationship
          * shall later be separated to Fractore

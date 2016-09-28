@@ -2,7 +2,7 @@
 
 namespace Zervo.Core.Services.Contracts
 {
-    public interface ICustomerService : IService<Customer>
+    public interface ICustomerService : IService<CustomerObjectModel>
     {
     }
 }

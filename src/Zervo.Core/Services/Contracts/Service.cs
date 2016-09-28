@@ -8,9 +8,9 @@ using Zervo.Core.Models.Contracts;
 
 namespace Zervo.Core.Services.Contracts
 {
-    public abstract class Service<TEntity> : IService<TEntity> where TEntity : class, IObjectModel
+    public abstract class Service<TObjectModel> : IService<TObjectModel> where TObjectModel : class, IObjectModel
     {
-        public virtual void Create(TEntity model)
+        public virtual void Create(TObjectModel model)
         {
             
         }
@@ -20,7 +20,7 @@ namespace Zervo.Core.Services.Contracts
             throw new NotImplementedException();
         }
 
-        public virtual IEnumerable<TEntity> List()
+        public virtual IEnumerable<TObjectModel> List()
         {
             throw new NotImplementedException();
         }
