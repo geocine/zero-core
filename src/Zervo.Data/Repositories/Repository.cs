@@ -17,13 +17,11 @@ namespace Zervo.Data.Repositories
 
         private readonly IDataContext _context;
         private readonly DbSet<TEntity> _dbSet;
-        private readonly IUnitOfWork _unitOfWork;
 
         #region Properties
-        public Repository(IDataContext context, IUnitOfWork unitOfWork)
+        public Repository(IDataContext context)
         {
             _context = context;
-            _unitOfWork = unitOfWork;
 
             var dbContext = context as DbContext;
 
@@ -90,11 +88,7 @@ namespace Zervo.Data.Repositories
 
         public virtual void Add(TEntity entity)
         {
-            //entity.ObjectState = ObjectState.Added;
-            //_dbSet.Attach(entity);
-            //_context.SyncObjectState(entity);
             _dbSet.Add(entity);
-            _context.SaveChanges();
         }
 
         public virtual void AddRange(IEnumerable<TEntity> entities)
@@ -107,9 +101,7 @@ namespace Zervo.Data.Repositories
 
         public virtual void Update(TEntity entity)
         {
-            entity.ObjectState = ObjectState.Modified;
-            _dbSet.Attach(entity);
-            _context.SyncObjectState(entity);
+            _dbSet.Update(entity);
         }
 
         public virtual void Delete(int id)
@@ -119,9 +111,7 @@ namespace Zervo.Data.Repositories
         }
         public virtual void Delete(TEntity entity)
         {
-            entity.ObjectState = ObjectState.Deleted;
-            _dbSet.Attach(entity);
-            _context.SyncObjectState(entity);
+            _dbSet.Remove(entity);
         }
 
         public virtual void DeleteWhere(Expression<Func<TEntity, bool>> predicate)
@@ -134,11 +124,6 @@ namespace Zervo.Data.Repositories
             }
         }
 
-        public IRepository<T> GetRepository<T>() where T : class, IEntity
-        {
-            return _unitOfWork.Repository<T>();
-        }
-
         public IQueryable<TEntity> Queryable()
         {
             return _dbSet;
@@ -146,7 +131,7 @@ namespace Zervo.Data.Repositories
 
         public void SaveChanges()
         {
-            _unitOfWork.SaveChanges();
+            _context.SaveChanges();
         }
     }
 }

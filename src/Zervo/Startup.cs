@@ -50,7 +50,6 @@ namespace Zervo
             });
 
             // Add dependency injection
-            services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IDataContext, ZervoContext>();
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddTransient<ICustomerService, CustomerService>();
