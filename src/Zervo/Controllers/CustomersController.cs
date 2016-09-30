@@ -29,18 +29,21 @@ namespace Zervo.Controllers
         }
 
         // GET api/customers/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("{id}", Name = "GetCustomer")]
+        public IActionResult Get(int id)
         {
-            return "value";
+            var customer = _customerService.Get(id);
+            return Ok(_mapper.Map<Customer,CustomerViewModel>(customer));
         }
 
         // POST api/customers
         [HttpPost]
-        public void Post([FromBody]CustomerModel customer)
+        public IActionResult Post([FromBody]CustomerModel customer)
         {
             var customerModel = _mapper.Map<CustomerModel, Customer>(customer);
             _customerService.Create(customerModel);
+            var customerViewModel = _mapper.Map<Customer, CustomerViewModel>(customerModel);
+            return CreatedAtRoute("GetCustomer", new { id = customerModel.Id }, customerViewModel);
         }
 
         // PUT api/customers/5

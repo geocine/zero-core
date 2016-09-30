@@ -67,6 +67,12 @@ namespace Zervo
             // Add framework services.
             services.AddMvc();
 
+            // Lower case urls
+            services.AddRouting(setupAction =>
+            {
+                setupAction.LowercaseUrls = true;
+            });
+
             // Add Automapper
             services.AddAutoMapper();
         }

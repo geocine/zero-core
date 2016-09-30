@@ -5,6 +5,7 @@ using Zervo.Data.Repositories.Contracts;
 using Zervo.Domain.Services.Contracts;
 using Zervo.Data.Repositories;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace Zervo.Domain.Services
 {
@@ -29,6 +30,12 @@ namespace Zervo.Domain.Services
         {
             var customers = _repository.GetAllDetails();
             return customers;
+        }
+
+        public Customer Get(int id)
+        {
+            var customer = _repository.GetCustomerDetails(id);
+            return customer;
         }
 
     }

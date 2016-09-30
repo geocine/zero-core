@@ -14,5 +14,10 @@ namespace Zervo.Data.Repositories
                 .Queryable()
                 .Include(x => x.Person).AsEnumerable();
         }
+
+        public static Customer GetCustomerDetails(this IRepository<Customer> repository, int id)
+        {
+            return repository.Queryable().Include(x => x.Person).SingleOrDefault(x => x.Id == id);
+        }
     }
 }

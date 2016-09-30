@@ -4,5 +4,6 @@ namespace Zervo.Domain.Services.Contracts
 {
     public interface ICustomerService : IService<Customer>
     {
+        Customer Get(int id);
     }
 }
