@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Zervo.Data.Helpers;
 
 namespace Zervo.Data.Repositories.Contracts
 {
@@ -39,11 +36,6 @@ namespace Zervo.Data.Repositories.Contracts
         {
             var changesAsync = await base.SaveChangesAsync(cancellationToken);
             return changesAsync;
-        }
-
-        public void SyncObjectState<TEntity>(TEntity entity) where TEntity : class, IEntity
-        {
-            Entry(entity).State = StateHelper.ConvertState(entity.ObjectState);
         }
 
         public override void Dispose()

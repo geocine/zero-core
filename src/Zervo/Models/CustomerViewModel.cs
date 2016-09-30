@@ -1,9 +1,8 @@
-﻿using Zervo.Core.Models.Contracts;
-
-namespace Zervo.Core.Models
+﻿namespace Zervo.Models
 {
-    public class CustomerObjectModel : ObjectModel, IObjectModel
+    public class CustomerViewModel
     {
+        public int Id { get; set; }
         public string LastName { get; set; }
         public string FirstName { get; set; }
         public string Email { get; set; }

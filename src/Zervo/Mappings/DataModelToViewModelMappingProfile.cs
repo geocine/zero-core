@@ -1,16 +1,16 @@
 ﻿using AutoMapper;
-using Zervo.Core.Models;
 using Zervo.Data.Models;
+using Zervo.Models;
 
 namespace Zervo.Mappings
 {
-    public class EntityToObjectModelMappingProfile : Profile
+    public class DataModelToViewModelMappingProfile : Profile
     {
-        public EntityToObjectModelMappingProfile()
+        public DataModelToViewModelMappingProfile()
         {
-            // Map Entity Model to Service Model
+            // Map Data Model to View Model
 
-            CreateMap<Customer, CustomerObjectModel>()
+            CreateMap<Customer, CustomerViewModel>()
                 .ForMember(d => d.FirstName,
                     opt => opt.MapFrom(s => s.Person.FirstName))
                 .ForMember(d => d.LastName,

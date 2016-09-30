@@ -4,19 +4,18 @@ using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Zervo.Middlewares;
 using Zervo.Data.Repositories.Database;
 using Microsoft.AspNetCore.Http;
-using Zervo.Core.Services;
-using Zervo.Core.Services.Contracts;
 using Zervo.Data.Repositories;
 using Zervo.Data.Repositories.Contracts;
 using Zervo.Helpers;
 using AutoMapper;
+using Zervo.Domain.Services;
+using Zervo.Domain.Services.Contracts;
 
 namespace Zervo
 {

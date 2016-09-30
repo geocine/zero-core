@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Zervo.Core.Models;
-using Zervo.Core.Services.Contracts;
+using Zervo.Data.Models;
+using Zervo.Domain.Services.Contracts;
 using Zervo.Models;
 
 namespace Zervo.Controllers
@@ -27,7 +24,8 @@ namespace Zervo.Controllers
         public IActionResult Get()
         {
             var customers = _customerService.List();
-            return Ok(customers);
+            var customerList = customers.Select(x => _mapper.Map<Customer, CustomerViewModel>(x)).ToList();
+            return Ok(customerList);
         }
 
         // GET api/customers/5
@@ -41,7 +39,7 @@ namespace Zervo.Controllers
         [HttpPost]
         public void Post([FromBody]CustomerModel customer)
         {
-            var customerModel = _mapper.Map<CustomerModel, CustomerObjectModel>(customer);
+            var customerModel = _mapper.Map<CustomerModel, Customer>(customer);
             _customerService.Create(customerModel);
         }
 

@@ -1,14 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Runtime.Serialization;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Zervo.Data.Infrastructure;
 using Zervo.Data.Repositories.Contracts;
-using Zervo.Data.Repositories.Database;
 
 namespace Zervo.Data.Repositories
 {
@@ -43,7 +38,7 @@ namespace Zervo.Data.Repositories
 
         public virtual IEnumerable<TEntity> GetAll()
         {
-            return _dbSet.AsEnumerable();
+            return _dbSet.AsNoTracking().ToList();
         }
 
         public virtual int Count()
@@ -57,17 +52,17 @@ namespace Zervo.Data.Repositories
             {
                 query = query.Include(includeProperty);
             }
-            return query.AsEnumerable();
+            return query.AsNoTracking().ToList();
         }
 
         public TEntity GetSingle(int id)
         {
-            return _dbSet.FirstOrDefault(x => x.Id == id);
+            return _dbSet.AsNoTracking().FirstOrDefault(x => x.Id == id);
         }
 
         public TEntity GetSingle(Expression<Func<TEntity, bool>> predicate)
         {
-            return _dbSet.FirstOrDefault(predicate);
+            return _dbSet.AsNoTracking().FirstOrDefault(predicate);
         }
 
         public TEntity GetSingle(Expression<Func<TEntity, bool>> predicate, params Expression<Func<TEntity, object>>[] includeProperties)
@@ -78,12 +73,12 @@ namespace Zervo.Data.Repositories
                 query = query.Include(includeProperty);
             }
 
-            return query.Where(predicate).FirstOrDefault();
+            return query.Where(predicate).AsNoTracking().FirstOrDefault();
         }
 
         public virtual IEnumerable<TEntity> FindBy(Expression<Func<TEntity, bool>> predicate)
         {
-            return _dbSet.Where(predicate);
+            return _dbSet.Where(predicate).AsNoTracking();
         }
 
         public virtual void Add(TEntity entity)
@@ -109,6 +104,7 @@ namespace Zervo.Data.Repositories
             var entity = new TEntity() { Id = id };
             Delete(entity);
         }
+
         public virtual void Delete(TEntity entity)
         {
             _dbSet.Remove(entity);
