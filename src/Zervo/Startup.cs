@@ -111,9 +111,8 @@ namespace Zervo
 
             if (env.IsStaging())
             {
-                // Create DB on startup
-                using (
-                    var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+                // Create DB on startup only on Docker
+                using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
                 {
                     serviceScope.ServiceProvider.GetService<ZervoContext>().Database.Migrate();
                 }
