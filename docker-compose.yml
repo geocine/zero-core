@@ -1,0 +1,33 @@
+version: '2'
+
+services:
+
+  web:
+    container_name: 'aspnetcoreapp'
+    image: 'zervo:aspnetcoreapp'
+    build:
+      context: .
+      dockerfile: aspnetcore.staging.dockerfile
+    volumes:
+      - .:/app
+    ports:
+     - "5000:5000"
+    depends_on:
+     - "postgres"
+    networks:
+      - aspnetcoreapp-network
+
+  postgres:
+    container_name: 'postgres'
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: zervo
+    networks:
+      - aspnetcoreapp-network
+
+networks:
+  aspnetcoreapp-network:
+    driver: bridge
+
+

@@ -108,6 +108,16 @@ namespace Zervo
             app.UseMiddleware<MyTimeLoggerMiddleware>();
 
             app.UseMvc();
+
+            if (env.IsStaging())
+            {
+                // Create DB on startup
+                using (
+                    var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+                {
+                    serviceScope.ServiceProvider.GetService<ZervoContext>().Database.Migrate();
+                }
+            }
         }
     }
 }
