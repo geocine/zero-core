@@ -12,8 +12,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Zervo", "src\zervo\Zervo.xproj", "{43E8EFF7-B00D-4798-9C5D-D11DFC01961F}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Fractore", "src\Fractore\Fractore.xproj", "{AF8C8FCB-41CB-42ED-84FF-94E671A353F4}"
-EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Zervo.Data", "src\Zervo.Data\Zervo.Data.xproj", "{45F7C1DD-386F-47F7-ACB6-33FB73F5D263}"
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Zervo.Domain", "src\Zervo.Domain\Zervo.Domain.xproj", "{D5A614AC-B693-42E1-99DE-F31B81D73556}"

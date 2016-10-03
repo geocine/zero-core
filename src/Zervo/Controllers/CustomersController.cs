@@ -1,8 +1,10 @@
 ﻿using System.Linq;
 using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Zervo.Data.Models;
 using Zervo.Domain.Services.Contracts;
+using Zervo.Features.Customers;
 using Zervo.Models;
 
 namespace Zervo.Controllers
@@ -12,11 +14,13 @@ namespace Zervo.Controllers
     {
         private readonly ICustomerService _customerService;
         private readonly IMapper _mapper;
+        private readonly IMediator _mediator;
 
-        public CustomersController(IMapper mapper, ICustomerService customerService)
+        public CustomersController(IMapper mapper,IMediator mediator, ICustomerService customerService)
         {
             _customerService = customerService;
             _mapper = mapper;
+            _mediator = mediator;
         }
 
         // GET api/customers
@@ -32,8 +36,10 @@ namespace Zervo.Controllers
         [HttpGet("{id}", Name = "GetCustomer")]
         public IActionResult Get(int id)
         {
-            var customer = _customerService.Get(id);
-            return Ok(_mapper.Map<Customer,CustomerViewModel>(customer));
+            //var customer = _customerService.Get(id);
+            //return Ok(_mapper.Map<Customer,CustomerViewModel>(customer));
+            var customer = _mediator.SendAsync(new CustomerQuery {Id = id}).Result;
+            return Ok(customer);
         }
 
         // POST api/customers
