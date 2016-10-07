@@ -1,4 +1,5 @@
-﻿using Zervo.Data.Models;
+﻿using System.Threading.Tasks;
+using Zervo.Data.Models;
 
 namespace Zervo.Domain.Services.Contracts
 {

@@ -5,6 +5,7 @@ using Zervo.Data.Repositories.Contracts;
 using Zervo.Domain.Services.Contracts;
 using Zervo.Data.Repositories;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
 namespace Zervo.Domain.Services
@@ -12,30 +13,21 @@ namespace Zervo.Domain.Services
     public class CustomerService : Service<Customer> , ICustomerService
     {
         private readonly IRepository<Customer> _repository;
-        private readonly IMapper _mapper;
 
-        public CustomerService(IMapper mapper, IRepository<Customer> repository )
+        public CustomerService(IRepository<Customer> repository ) : 
+            base(repository)
         {
             _repository = repository;
-            _mapper = mapper;
-        }
-
-        public override void Create(Customer customer)
-        {
-            _repository.Add(customer);
-            _repository.SaveChanges();
         }
 
         public override IEnumerable<Customer> List()
         {
-            var customers = _repository.GetAllDetails();
-            return customers;
+            return _repository.GetAllDetails();
         }
 
         public Customer Get(int id)
         {
-            var customer = _repository.GetCustomerDetails(id);
-            return customer;
+            return _repository.GetCustomerDetails(id);
         }
 
     }

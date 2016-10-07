@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using AutoMapper;
 using Zervo.Data.Repositories;
 using Zervo.Data.Repositories.Contracts;
 using Zervo.Domain.Services.Contracts;
@@ -12,15 +14,14 @@ namespace Zervo.Domain.Services
         private readonly IRepository<Employee> _repository;
 
         public EmployeeService(IRepository<Employee> repository)
+            : base(repository)
         {
             _repository = repository;
         }
 
         public override IEnumerable<Employee> List()
         {
-            // Need to use automapper here
-            var employees = _repository.GetAllDetails();
-            return employees;
+            return _repository.GetAllDetails();
         }
 
     }

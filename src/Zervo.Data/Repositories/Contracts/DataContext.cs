@@ -34,8 +34,7 @@ namespace Zervo.Data.Repositories.Contracts
         [SuppressMessage("ReSharper", "OptionalParameterHierarchyMismatch")]
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken)
         {
-            var changesAsync = await base.SaveChangesAsync(cancellationToken);
-            return changesAsync;
+            return await base.SaveChangesAsync(cancellationToken);
         }
 
         public override void Dispose()

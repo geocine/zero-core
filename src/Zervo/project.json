@@ -31,7 +31,9 @@
     "AutoMapper.Extensions.Microsoft.DependencyInjection": "1.1.2",
     "Microsoft.AspNetCore.Mvc.WebApiCompatShim": "1.0.1",
     "Microsoft.Extensions.Configuration.CommandLine": "1.0.0",
-    "MediatR": "2.1.0"
+    "MediatR": "2.1.0",
+    "FluentValidation": "6.2.1",
+    "System.Linq": "4.1.0"
   },
 
   "tools": {

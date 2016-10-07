@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using Zervo.Data.Repositories.Contracts;
 
 namespace Zervo.Data.Repositories
@@ -38,7 +39,7 @@ namespace Zervo.Data.Repositories
 
         public virtual IEnumerable<TEntity> GetAll()
         {
-            return _dbSet.AsNoTracking().ToList();
+            return _dbSet.AsNoTracking().AsEnumerable();
         }
 
         public virtual int Count()
@@ -128,6 +129,11 @@ namespace Zervo.Data.Repositories
         public void SaveChanges()
         {
             _context.SaveChanges();
+        }
+
+        public async Task<int> SaveChangesAsync()
+        {
+            return await _context.SaveChangesAsync();
         }
     }
 }

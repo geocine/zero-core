@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
@@ -20,8 +21,8 @@ namespace Zervo.Middlewares
 
             await _next(context);
 
-            // Shows on output of Visual Studio
-            Debug.WriteLine("Response generation length {0} msec", watch.ElapsedMilliseconds);
+            // Shows on output of Visual Studio (Debug.WriteLine)
+            Console.WriteLine("Response generation length {0} msec", watch.ElapsedMilliseconds);
         }
     }
 }

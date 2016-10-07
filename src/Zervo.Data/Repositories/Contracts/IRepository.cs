@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace Zervo.Data.Repositories.Contracts
 {
@@ -21,5 +22,6 @@ namespace Zervo.Data.Repositories.Contracts
         void DeleteWhere(Expression<Func<TEntity, bool>> predicate);
         IQueryable<TEntity> Queryable();
         void SaveChanges();
+        Task<int> SaveChangesAsync();
     }
 }
