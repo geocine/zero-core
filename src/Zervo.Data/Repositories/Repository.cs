@@ -10,6 +10,8 @@ namespace Zervo.Data.Repositories
 {
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : class, IEntity, new()
     {
+        // We shall use Sync until this is fixed
+        // https://github.com/aspnet/EntityFramework/issues/5816
 
         private readonly IDataContext _context;
         private readonly DbSet<TEntity> _dbSet;
@@ -25,15 +27,6 @@ namespace Zervo.Data.Repositories
             {
                 _dbSet = dbContext.Set<TEntity>();
             }
-            //else
-            //{
-            //    var fakeContext = context as FakeDbContext;
-            //
-            //    if (fakeContext != null)
-            //    {
-            //        _dbSet = fakeContext.Set<TEntity>();
-            //    }
-            //}
         }
         #endregion
 

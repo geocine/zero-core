@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using AutoMapper;
-using Zervo.Data.Models;
+﻿using System.Collections.Generic;
 using Zervo.Data.Repositories.Contracts;
+using Zervo.Domain.Services.Contracts;
 
-namespace Zervo.Domain.Services.Contracts
+namespace Zervo.Domain.Services
 {
     public abstract class Service<TEntity> : IService<TEntity> where TEntity : class, IEntity
     {

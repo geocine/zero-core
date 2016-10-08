@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Diagnostics;
@@ -18,7 +19,9 @@ using MediatR;
 using Zervo.Domain.Services;
 using Zervo.Domain.Services.Contracts;
 using System.Reflection;
+using StructureMap;
 using Zervo.Extensions;
+using Zervo.Validators;
 
 namespace Zervo
 {
@@ -37,7 +40,7 @@ namespace Zervo
         public IConfigurationRoot Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             // Enable CORS
             var corsBuilder = new CorsPolicyBuilder();
@@ -83,7 +86,24 @@ namespace Zervo
             services.AddScoped<IMediator, Mediator>();
             services.AddTransient<SingleInstanceFactory>(sp => t => sp.GetService(t));
             services.AddTransient<MultiInstanceFactory>(sp => t => sp.GetServices(t));
-            services.AddMediatorHandlers(typeof(Startup).GetTypeInfo().Assembly);
+            return ConfigureIoC(services);
+        }
+
+        public IServiceProvider ConfigureIoC(IServiceCollection services)
+        {
+            // This is using StructureMap.Microsoft.DependencyInjection to work with
+            // Microsoft.Extensions.DependencyInjection So you could use both
+
+            var container = new Container();
+            container.Configure(config =>
+            {
+                config.AddMediatorHandlers();
+                config.AddFluentValidators();
+                // validations will be called for every mediator request
+                config.DecorateMediatorWithFluentValidators();
+            });
+            container.Populate(services);
+            return container.GetInstance<IServiceProvider>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -102,12 +122,12 @@ namespace Zervo
                     async context =>
                     {
                         context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                        context.Response.Headers.Add("Access-Control-Allow-Origin", "*");
+                        //context.Response.Headers.Add("Access-Control-Allow-Origin", "*");
 
                         var error = context.Features.Get<IExceptionHandlerFeature>();
                         if (error != null)
                         {
-                            context.Response.AddApplicationError(error.Error.Message);
+                            //context.Response.AddApplicationError(error.Error.Message);
                             await context.Response.WriteAsync(error.Error.Message).ConfigureAwait(false);
                         }
                     });
@@ -126,6 +146,7 @@ namespace Zervo
                     serviceScope.ServiceProvider.GetService<ZervoContext>().Database.Migrate();
                 }
             }
+
         }
     }
 }
