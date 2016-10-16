@@ -41,12 +41,12 @@ namespace Zervo.Extensions
             });
         }
 
-        public static void DecorateMediatorWithFluentValidators(this ConfigurationExpression config)
+        public static void FluentValidatorPipleline(this ConfigurationExpression config)
         {
             // Learn about Decorators
             // https://lostechies.com/jimmybogard/2014/09/09/tackling-cross-cutting-concerns-with-a-mediator-pipeline/
             var asyncHandlerType = config.For(typeof(IAsyncRequestHandler<,>));
-            asyncHandlerType.DecorateAllWith(typeof(AsyncValidatorHandler<,>));
+            asyncHandlerType.DecorateAllWith(typeof(AsyncValidatorPipeline<,>));
         }
 
 

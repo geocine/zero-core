@@ -5,8 +5,6 @@ MAINTAINER Aivan Monceller
 ENV ASPNETCORE_ENVIRONMENT staging
 ENV DOTNET_USE_POLLING_FILE_WATCHER=1
 
-COPY . /app
-
 WORKDIR /app/src/Zervo
 
 RUN dotnet restore

@@ -2,8 +2,8 @@ version: '2'
 
 services:
 
-  zervo1:
-    container_name: 'zervo1'
+  aspnetcoreapp:
+    container_name: 'zervo_api_1'
     image: 'aspnetcoreapp:zervo'
     build:
       context: .
@@ -17,8 +17,8 @@ services:
     networks:
       - aspnetcoreapp-network
 
-  zervo2:
-    container_name: 'zervo2'
+  aspnetcoreapp:
+    container_name: 'zervo_api_2'
     image: 'aspnetcoreapp:zervo'
     volumes:
       - .:/app
@@ -30,7 +30,7 @@ services:
       - aspnetcoreapp-network
 
   postgres:
-    container_name: 'postgres'
+    container_name: 'zervo_postgres'
     image: postgres
     environment:
       POSTGRES_PASSWORD: root
@@ -39,6 +39,7 @@ services:
       - aspnetcoreapp-network
       
   nginx:
+    container_name: 'zervo_nginx'
     build:
       context: ./nginx
       dockerfile: nginx.staging.dockerfile

@@ -7,12 +7,12 @@ using MediatR;
 
 namespace Zervo.Validators
 {
-    public class AsyncValidatorHandler<TRequest, TResponse> : IAsyncRequestHandler<TRequest, TResponse> where TRequest : IAsyncRequest<TResponse>
+    public class AsyncValidatorPipeline<TRequest, TResponse> : IAsyncRequestHandler<TRequest, TResponse> where TRequest : IAsyncRequest<TResponse>
     {
         private readonly IAsyncRequestHandler<TRequest, TResponse> _inner;
         private readonly IValidator<TRequest>[] _validators;
 
-        public AsyncValidatorHandler(
+        public AsyncValidatorPipeline(
             IAsyncRequestHandler<TRequest, TResponse> inner,
             IValidator<TRequest>[] validators)
         {

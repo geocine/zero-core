@@ -100,7 +100,7 @@ namespace Zervo
                 config.AddMediatorHandlers();
                 config.AddFluentValidators();
                 // validations will be called for every mediator request
-                config.DecorateMediatorWithFluentValidators();
+                config.FluentValidatorPipleline();
             });
             container.Populate(services);
             return container.GetInstance<IServiceProvider>();
