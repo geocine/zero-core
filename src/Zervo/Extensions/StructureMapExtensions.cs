@@ -7,6 +7,7 @@ using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using StructureMap;
+using Zervo.Pipelines;
 using Zervo.Validators;
 
 namespace Zervo.Extensions
@@ -41,14 +42,16 @@ namespace Zervo.Extensions
             });
         }
 
-        public static void FluentValidatorPipleline(this ConfigurationExpression config)
+        public static void DecorateMediator(this ConfigurationExpression config)
         {
             // Learn about Decorators
             // https://lostechies.com/jimmybogard/2014/09/09/tackling-cross-cutting-concerns-with-a-mediator-pipeline/
             var asyncHandlerType = config.For(typeof(IAsyncRequestHandler<,>));
+            // Add pre/post handlers like middleware handlers to a mediator request
+            asyncHandlerType.DecorateAllWith(typeof(AsyncMediatorPipeline<,>));
+            // this is like a pre handler that validates the request using FluentValdation
             asyncHandlerType.DecorateAllWith(typeof(AsyncValidatorPipeline<,>));
         }
-
 
     }
 }
