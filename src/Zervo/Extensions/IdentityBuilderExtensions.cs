@@ -2,9 +2,12 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Text;
+using Microsoft.IdentityModel.Tokens;
 using OpenIddict;
 using Zervo.Data.Models;
 using Zervo.Data.Repositories.Database;
+using Zervo.Domain.Services;
 using Zervo.Identity;
 
 namespace Zervo.Extensions
@@ -37,14 +40,30 @@ namespace Zervo.Extensions
 
         public static void UseZervoIdentity(this IApplicationBuilder app)
         {
+            //Token implementation here
+            //https://github.com/openiddict/openiddict-core/issues/249
+            var tokenSecretKey = Encoding.ASCII.GetBytes("");
+
+            //TODO: Symmetric Security Key
+            var tokenValidationParameters = new TokenValidationParameters
+            {
+                //ValidateIssuerSigningKey = true,
+                //IssuerSigningKey = new SymmetricSecurityKey(tokenSecretKey),
+                ValidateAudience = false,
+                ValidateIssuer = false,
+                ValidateLifetime = true,
+                ClockSkew = TimeSpan.Zero
+            };
+
             app.UseIdentity()
                 .UseOpenIddict()
                 .UseJwtBearerAuthentication(new JwtBearerOptions
                 {
-                    Authority = "http://localhost:5000",
-                    AutomaticAuthenticate = true,
+                    Authority = "http://localhost:5000", // Issuer
+                    Audience = "http://localhost:5000", // Audience
                     AutomaticChallenge = true,
-                    Audience = "http://localhost:5000", // resource
+                    AutomaticAuthenticate = true,
+                    TokenValidationParameters = tokenValidationParameters,
                     RequireHttpsMetadata = false
                 });
         }
