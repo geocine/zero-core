@@ -10,24 +10,24 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Zervo.Domain.Services
 {
-    public class CustomerService : Service<Customer> , ICustomerService
+    public class RoleService : Service<Role> , IRoleService
     {
-        private readonly IRepository<Customer> _repository;
+        private readonly IRepository<Role> _repository;
 
-        public CustomerService(IRepository<Customer> repository ) : 
+        public RoleService(IRepository<Role> repository ) : 
             base(repository)
         {
             _repository = repository;
         }
 
-        public override IEnumerable<Customer> List()
+        public override IEnumerable<Role> List()
         {
-            return _repository.GetAllDetails();
+            return _repository.GetAll();
         }
 
-        public override Customer Get(int id)
+        public Role FindByName(string name)
         {
-            return _repository.GetCustomerDetails(id);
+            return _repository.GetSingle(x => x.Name == name);
         }
 
     }

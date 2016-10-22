@@ -9,18 +9,46 @@ namespace Zervo.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "people",
+                name: "roles",
+                columns: table => new
+                {
+                    id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGeneratedOnAdd", true),
+                    name = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_roles", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "tokens",
+                columns: table => new
+                {
+                    id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGeneratedOnAdd", true),
+                    type = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tokens", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "users",
                 columns: table => new
                 {
                     id = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGeneratedOnAdd", true),
                     email = table.Column<string>(nullable: true),
                     first_name = table.Column<string>(nullable: true),
-                    last_name = table.Column<string>(nullable: true)
+                    last_name = table.Column<string>(nullable: true),
+                    password_hash = table.Column<string>(nullable: true),
+                    username = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_people", x => x.id);
+                    table.PrimaryKey("PK_users", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -35,9 +63,9 @@ namespace Zervo.Data.Migrations
                 {
                     table.PrimaryKey("PK_customers", x => x.id);
                     table.ForeignKey(
-                        name: "FK_customers_people_person_id",
+                        name: "FK_customers_users_person_id",
                         column: x => x.person_id,
-                        principalTable: "people",
+                        principalTable: "users",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -55,9 +83,9 @@ namespace Zervo.Data.Migrations
                 {
                     table.PrimaryKey("PK_employees", x => x.id);
                     table.ForeignKey(
-                        name: "FK_employees_people_person_id",
+                        name: "FK_employees_users_person_id",
                         column: x => x.person_id,
-                        principalTable: "people",
+                        principalTable: "users",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -84,7 +112,13 @@ namespace Zervo.Data.Migrations
                 name: "employees");
 
             migrationBuilder.DropTable(
-                name: "people");
+                name: "roles");
+
+            migrationBuilder.DropTable(
+                name: "tokens");
+
+            migrationBuilder.DropTable(
+                name: "users");
         }
     }
 }

@@ -13,12 +13,12 @@ namespace Zervo.Data.Repositories
         {
             return repository
                 .Queryable()
-                .Include(x => x.Person).AsEnumerable();
+                .Include(x => x.User).AsEnumerable();
         }
 
         public static Customer GetCustomerDetails(this IRepository<Customer> repository, int id)
         {
-            return repository.Queryable().Include(x => x.Person).SingleOrDefault(x => x.Id == id);
+            return repository.Queryable().Include(x => x.User).SingleOrDefault(x => x.Id == id);
         }
     }
 }

@@ -33,6 +33,11 @@ namespace Zervo.Domain.Services
             _repository.SaveChanges();
         }
 
+        public virtual TEntity Get(int id)
+        {
+            return _repository.GetSingle(id);
+        }
+
         public virtual IEnumerable<TEntity> List()
         {
             return _repository.GetAll();

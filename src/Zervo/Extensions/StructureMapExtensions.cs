@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
-using FluentValidation;
+﻿using FluentValidation;
 using MediatR;
-using Microsoft.Extensions.DependencyInjection;
 using StructureMap;
+using System.Reflection;
 using Zervo.Pipelines;
-using Zervo.Validators;
 
 namespace Zervo.Extensions
 {
@@ -52,6 +46,5 @@ namespace Zervo.Extensions
             // this is like a pre handler that validates the request using FluentValdation
             asyncHandlerType.DecorateAllWith(typeof(AsyncValidatorPipeline<,>));
         }
-
     }
 }

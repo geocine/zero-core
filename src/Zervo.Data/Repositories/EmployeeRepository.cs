@@ -13,7 +13,7 @@ namespace Zervo.Data.Repositories
         {
             return repository
                 .Queryable()
-                .Include(x => x.Person).AsEnumerable();
+                .Include(x => x.User).AsEnumerable();
         }
     }
 }

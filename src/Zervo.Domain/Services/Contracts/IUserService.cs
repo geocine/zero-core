@@ -3,7 +3,8 @@ using Zervo.Data.Models;
 
 namespace Zervo.Domain.Services.Contracts
 {
-    public interface ICustomerService : IService<Customer>
+    public interface IUserService : IService<User>
     {
+        User FindByUserName(string userName);
     }
 }

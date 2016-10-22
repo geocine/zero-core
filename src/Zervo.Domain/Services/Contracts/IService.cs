@@ -7,6 +7,7 @@ namespace Zervo.Domain.Services.Contracts
 {
     public interface IService<TEntity> where TEntity : IEntity
     {
+        TEntity Get(int id);
         IEnumerable<TEntity> List();
         int Create(TEntity model);
         void Update(TEntity model);

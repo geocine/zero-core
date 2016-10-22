@@ -8,7 +8,7 @@ using Zervo.Data.Repositories.Database;
 namespace Zervo.Data.Migrations
 {
     [DbContext(typeof(ZervoContext))]
-    [Migration("20160924143935_Initial")]
+    [Migration("20161022080137_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -53,7 +53,35 @@ namespace Zervo.Data.Migrations
                     b.ToTable("employees");
                 });
 
-            modelBuilder.Entity("Zervo.Data.Models.Person", b =>
+            modelBuilder.Entity("Zervo.Data.Models.Role", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id");
+
+                    b.Property<string>("Name")
+                        .HasColumnName("name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("roles");
+                });
+
+            modelBuilder.Entity("Zervo.Data.Models.Token", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id");
+
+                    b.Property<string>("Type")
+                        .HasColumnName("type");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("tokens");
+                });
+
+            modelBuilder.Entity("Zervo.Data.Models.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -68,14 +96,20 @@ namespace Zervo.Data.Migrations
                     b.Property<string>("LastName")
                         .HasColumnName("last_name");
 
+                    b.Property<string>("PasswordHash")
+                        .HasColumnName("password_hash");
+
+                    b.Property<string>("Username")
+                        .HasColumnName("username");
+
                     b.HasKey("Id");
 
-                    b.ToTable("people");
+                    b.ToTable("users");
                 });
 
             modelBuilder.Entity("Zervo.Data.Models.Customer", b =>
                 {
-                    b.HasOne("Zervo.Data.Models.Person", "Person")
+                    b.HasOne("Zervo.Data.Models.User", "User")
                         .WithOne("Customer")
                         .HasForeignKey("Zervo.Data.Models.Customer", "PersonId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -83,7 +117,7 @@ namespace Zervo.Data.Migrations
 
             modelBuilder.Entity("Zervo.Data.Models.Employee", b =>
                 {
-                    b.HasOne("Zervo.Data.Models.Person", "Person")
+                    b.HasOne("Zervo.Data.Models.User", "User")
                         .WithOne("Employee")
                         .HasForeignKey("Zervo.Data.Models.Employee", "PersonId")
                         .OnDelete(DeleteBehavior.Cascade);

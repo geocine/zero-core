@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Zervo.Data.Models;
 using CaseExtensions;
 using System.Linq;
+using OpenIddict;
 using Zervo.Data.Repositories.Contracts;
 
 namespace Zervo.Data.Repositories.Database
@@ -19,8 +20,10 @@ namespace Zervo.Data.Repositories.Database
         }
 
         public DbSet<Customer> Customers { get; set; }
-        public DbSet<Person> People { get; set; }
+        public DbSet<User> Users { get; set; }
         public DbSet<Employee> Employees { get; set; }
+        public DbSet<Role>  Roles { get; set; }
+        public DbSet<Token>  Tokens { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -45,14 +48,14 @@ namespace Zervo.Data.Repositories.Database
              * A one to one relationship
              * http://ef.readthedocs.io/en/latest/modeling/relationships.html#one-to-one
              */
-            modelBuilder.Entity<Person>()
+            modelBuilder.Entity<User>()
                 .HasOne(p => p.Customer)
-                .WithOne(i => i.Person)
+                .WithOne(i => i.User)
                 .HasForeignKey<Customer>(p => p.PersonId);
 
-            modelBuilder.Entity<Person>()
+            modelBuilder.Entity<User>()
                 .HasOne(p => p.Employee)
-                .WithOne(i => i.Person)
+                .WithOne(i => i.User)
                 .HasForeignKey<Employee>(p => p.PersonId);
 
         }

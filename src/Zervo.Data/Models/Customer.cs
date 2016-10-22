@@ -6,6 +6,6 @@ namespace Zervo.Data.Models
     {
         // one-to-one
         public int PersonId { get; set; }
-        public Person Person { get; set; }
+        public User User { get; set; }
     }
 }

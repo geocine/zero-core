@@ -17,21 +17,21 @@ namespace Zervo.Mappings
 
             CreateMap<Customer, CustomerViewModel>()
                 .ForMember(d => d.FirstName,
-                    opt => opt.MapFrom(s => s.Person.FirstName))
+                    opt => opt.MapFrom(s => s.User.FirstName))
                 .ForMember(d => d.LastName,
-                    opt => opt.MapFrom(s => s.Person.LastName))
+                    opt => opt.MapFrom(s => s.User.LastName))
                 .ForMember(d => d.Email,
-                    opt => opt.MapFrom(s => s.Person.Email));
+                    opt => opt.MapFrom(s => s.User.Email));
 
             //  Controller View Model to Data Model
 
-            CreateMap<CustomerViewModel, Person>()
+            CreateMap<CustomerViewModel, User>()
                 .ForMember(x => x.Id, opt => opt.Ignore());
 
             CreateMap<CustomerViewModel, Customer>()
-                .ForMember(d => d.Person,
+                .ForMember(d => d.User,
                     opt => opt.MapFrom(
-                        s => Mapper.Map<CustomerViewModel, Person>(s)
+                        s => Mapper.Map<CustomerViewModel, User>(s)
                     )
                 )
                 .ForMember(x => x.Id, opt => opt.Ignore());

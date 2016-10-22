@@ -1,27 +1,24 @@
-﻿using System;
-using System.Net;
+﻿using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Zervo.Middlewares;
-using Zervo.Data.Repositories.Database;
-using Microsoft.AspNetCore.Http;
+using StructureMap;
+using System;
+using System.Net;
 using Zervo.Data.Repositories;
 using Zervo.Data.Repositories.Contracts;
-using Zervo.Helpers;
-using AutoMapper;
-using MediatR;
+using Zervo.Data.Repositories.Database;
 using Zervo.Domain.Services;
 using Zervo.Domain.Services.Contracts;
-using System.Reflection;
-using StructureMap;
 using Zervo.Extensions;
-using Zervo.Validators;
+using Zervo.Middlewares;
 
 namespace Zervo
 {
@@ -59,6 +56,9 @@ namespace Zervo
             services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
             services.AddTransient<ICustomerService, CustomerService>();
             services.AddTransient<IEmployeeService, EmployeeService>();
+            services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IRoleService, RoleService>();
+            services.AddTransient<ITokenService, TokenService>();
 
             // Configure EntityFramework / PostgreSQL
             services
@@ -82,15 +82,18 @@ namespace Zervo
             // Add Automapper
             services.AddAutoMapper();
 
-            // Add Mediatr
-            services.AddScoped<IMediator, Mediator>();
-            services.AddTransient<SingleInstanceFactory>(sp => t => sp.GetService(t));
-            services.AddTransient<MultiInstanceFactory>(sp => t => sp.GetServices(t));
+            services.AddZervoIdentity();
+
             return ConfigureIoC(services);
         }
 
         public IServiceProvider ConfigureIoC(IServiceCollection services)
         {
+            // Add Mediatr
+            services.AddScoped<IMediator, Mediator>();
+            services.AddTransient<SingleInstanceFactory>(sp => t => sp.GetService(t));
+            services.AddTransient<MultiInstanceFactory>(sp => t => sp.GetServices(t));
+
             // This is using StructureMap.Microsoft.DependencyInjection to work with
             // Microsoft.Extensions.DependencyInjection So you could use both
 
@@ -136,6 +139,9 @@ namespace Zervo
             // Add middleware
             app.UseMiddleware<MyTimeLoggerMiddleware>();
 
+            // Identity tuff
+            app.UseZervoIdentity();
+
             app.UseMvc();
 
             if (env.IsStaging())
@@ -146,7 +152,6 @@ namespace Zervo
                     serviceScope.ServiceProvider.GetService<ZervoContext>().Database.Migrate();
                 }
             }
-
         }
     }
 }

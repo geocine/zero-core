@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AspNet.Security.OAuth.Validation;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Zervo.Domain.Services.Contracts;
 
 namespace Zervo.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize(ActiveAuthenticationSchemes = OAuthValidationDefaults.AuthenticationScheme)]
     public class EmployeesController : Controller
     {
         private readonly IEmployeeService _employeeService;

@@ -1,8 +1,10 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
+using AspNet.Security.OAuth.Validation;
 using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Zervo.Data.Models;
 using Zervo.Domain.Services.Contracts;
@@ -13,6 +15,7 @@ using Zervo.ViewModels;
 namespace Zervo.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize(ActiveAuthenticationSchemes = OAuthValidationDefaults.AuthenticationScheme)]
     public class CustomersController : Controller
     {
         private readonly IMediator _mediator;

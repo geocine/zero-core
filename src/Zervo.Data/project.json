@@ -14,7 +14,8 @@
         "portable-net45+win8"
       ]
     },
-    "CaseExtensions": "1.0.1"
+    "CaseExtensions": "1.0.1",
+    "OpenIddict": "1.0.0-*"
   },
 
   "tools": {
