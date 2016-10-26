@@ -219,3 +219,5 @@ paket-files/
 
 ### VisualStudio Patch ###
 build/
+
+log-*.txt

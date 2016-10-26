@@ -11,7 +11,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using StructureMap;
 using System;
+using System.IO;
 using System.Net;
+using Serilog;
 using Zervo.Data.Repositories;
 using Zervo.Data.Repositories.Contracts;
 using Zervo.Data.Repositories.Database;
@@ -32,6 +34,12 @@ namespace Zervo
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
+
+            // Rolling file Serilog
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Debug()
+                .WriteTo.RollingFile(Path.Combine(env.ContentRootPath, "log-{Date}.txt"))
+                .CreateLogger();
         }
 
         public IConfigurationRoot Configuration { get; }
@@ -110,10 +118,12 @@ namespace Zervo
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IServiceProvider serviceProvider)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
+            // Add Serilog - Logs to Rolling File
+            loggerFactory.AddSerilog();
 
             // Enabl CORS
             app.UseCors("AllowAll");
@@ -131,6 +141,7 @@ namespace Zervo
                         if (error != null)
                         {
                             //context.Response.AddApplicationError(error.Error.Message);
+                            //serviceProvider.GetService<ILogger<Startup>>().LogError(error.Error.Message);
                             await context.Response.WriteAsync(error.Error.Message).ConfigureAwait(false);
                         }
                     });
