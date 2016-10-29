@@ -13,6 +13,9 @@ using StructureMap;
 using System;
 using System.IO;
 using System.Net;
+using GraphQL;
+using GraphQL.Http;
+using GraphQL.Types;
 using Serilog;
 using Zervo.Data.Repositories;
 using Zervo.Data.Repositories.Contracts;
@@ -20,6 +23,7 @@ using Zervo.Data.Repositories.Database;
 using Zervo.Domain.Services;
 using Zervo.Domain.Services.Contracts;
 using Zervo.Extensions;
+using Zervo.GraphQL;
 using Zervo.Middlewares;
 
 namespace Zervo
@@ -67,6 +71,7 @@ namespace Zervo
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IRoleService, RoleService>();
             services.AddTransient<ITokenService, TokenService>();
+           
 
             // Configure EntityFramework / PostgreSQL
             services
@@ -112,6 +117,13 @@ namespace Zervo
                 config.AddFluentValidators();
                 // validations will be called for every mediator request
                 config.DecorateMediator();
+
+                //GraphQL
+                config.For<IDocumentExecuter>().Use<DocumentExecuter>();
+                config.For<IDocumentWriter>().Use(x => new DocumentWriter(true));
+                config.For<CustomerType>().Use<CustomerType>();
+                config.For<ZervoSchema>().Use(x => new ZervoSchema(type => (GraphType) container.GetInstance(type)));
+
             });
             container.Populate(services);
             return container.GetInstance<IServiceProvider>();

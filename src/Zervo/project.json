@@ -44,7 +44,8 @@
     "Serilog": "2.3.0",
     "Serilog.Extensions.Logging": "1.2.0",
     "Serilog.Sinks.RollingFile": "3.2.0",
-    "Serilog.Sinks.File": "3.1.0"
+    "Serilog.Sinks.File": "3.1.0",
+    "GraphQL": "0.13.0.562"
   },
 
   "tools": {
