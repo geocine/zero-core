@@ -24,23 +24,11 @@ namespace Zervo.Controllers
         public GraphQLController(
             IDocumentExecuter executer,
             IDocumentWriter writer,
-            ZervoSchema schema)
+            ISchema schema)
         {
             _executer = executer;
             _writer = writer;
             _schema = schema;
-
-            _namedQueries = new Dictionary<string, string>
-            {
-                ["a-query"] = @"query foo { hero { name } }"
-            };
-        }
-
-        // This will display an example error
-        [HttpGet]
-        public Task<ContentResult> GetAsync(HttpRequestMessage request)
-        {
-            return PostAsync(request, new GraphQLQuery { Query = "query foo { hero }", Variables = "" });
         }
 
         [HttpPost]
@@ -49,11 +37,7 @@ namespace Zervo.Controllers
             var inputs = query.Variables.ToInputs();
             var queryToExecute = query.Query;
 
-            if (!string.IsNullOrWhiteSpace(query.NamedQuery))
-            {
-                queryToExecute = _namedQueries[query.NamedQuery];
-            }
-
+            // Operation Name should match that on the Query
             var result = await ExecuteAsync(_schema, null, queryToExecute, query.OperationName, inputs).ConfigureAwait(true);
 
             var httpResult = result.Errors?.Count > 0
@@ -79,13 +63,5 @@ namespace Zervo.Controllers
         {
             return _executer.ExecuteAsync(schema, rootObject, query, operationName, inputs);
         }
-    }
-
-    public class GraphQLQuery
-    {
-        public string OperationName { get; set; }
-        public string NamedQuery { get; set; }
-        public string Query { get; set; }
-        public string Variables { get; set; }
     }
 }

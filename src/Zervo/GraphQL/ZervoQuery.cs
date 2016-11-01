@@ -6,6 +6,7 @@ using GraphQL.Types;
 using MediatR;
 using Zervo.Domain.Services.Contracts;
 using Zervo.Features.Customers;
+using Zervo.GraphQL;
 
 namespace Zervo.GraphQL
 {
@@ -15,17 +16,16 @@ namespace Zervo.GraphQL
         {
             Name = "Query";
 
-            Field<ListGraphType<CustomerType>>(
+            this.FieldAsync<ListGraphType<CustomerType>, object>(
                 "customers",
-                resolve: context => mediator.SendAsync(new GetCustomerListQuery()).Result
-            );
+                resolve: async context => await mediator.SendAsync(new GetCustomerListQuery()));
 
-            Field<CustomerType>(
+            this.FieldAsync<CustomerType,  object>(
                 "customer",
                 arguments: new QueryArguments(
-                    new QueryArgument<NonNullGraphType<IntGraphType>> { Name = "id", Description = "id of the human" }
+                    new QueryArgument<NonNullGraphType<IntGraphType>> { Name = "id", Description = "id of the customer" }
                 ),
-                resolve: context => mediator.SendAsync(new GetCustomerQuery { Id = context.GetArgument<int>("id") })
+                resolve: async context => await mediator.SendAsync(new GetCustomerQuery { Id = context.GetArgument<int>("id") })
             );
         }
     }

@@ -118,12 +118,12 @@ namespace Zervo
                 // validations will be called for every mediator request
                 config.DecorateMediator();
 
+                //GraphQL Type Resolver
+                config.For<CustomerType>().Use<CustomerType>();
                 //GraphQL
                 config.For<IDocumentExecuter>().Use<DocumentExecuter>();
                 config.For<IDocumentWriter>().Use(x => new DocumentWriter(true));
-                config.For<CustomerType>().Use<CustomerType>();
-                config.For<ZervoSchema>().Use(x => new ZervoSchema(type => (GraphType) container.GetInstance(type)));
-
+                config.For<ISchema>().Use(x => new ZervoSchema(type => (GraphType) container.GetInstance(type)));
             });
             container.Populate(services);
             return container.GetInstance<IServiceProvider>();
