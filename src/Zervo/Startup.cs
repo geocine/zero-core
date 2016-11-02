@@ -120,6 +120,7 @@ namespace Zervo
 
                 //GraphQL Type Resolver
                 config.For<CustomerType>().Use<CustomerType>();
+                config.For<CustomerInputType>().Use<CustomerInputType>();
                 //GraphQL
                 config.For<IDocumentExecuter>().Use<DocumentExecuter>();
                 config.For<IDocumentWriter>().Use(x => new DocumentWriter(true));

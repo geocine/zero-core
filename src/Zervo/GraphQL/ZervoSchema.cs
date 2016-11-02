@@ -12,7 +12,8 @@ namespace Zervo.GraphQL
         public ZervoSchema(Func<Type, GraphType> resolveType)
             : base(resolveType)
         {
-            Query = (ZervoQuery)resolveType(typeof(ZervoQuery));
+            Query = (ZervoQuery) resolveType(typeof(ZervoQuery));
+            Mutation = (ZervoMutation) resolveType(typeof(ZervoMutation));
         }
     }
 }
