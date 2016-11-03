@@ -28,6 +28,7 @@ namespace Zervo.Controllers
         {
             _executer = executer;
             _writer = writer;
+            // can implement multiple schema
             _schema = schema;
         }
 
@@ -36,6 +37,9 @@ namespace Zervo.Controllers
         {
             var inputs = query.Variables.ToInputs();
             var queryToExecute = query.Query;
+            
+            // named queries https://dev-blog.apollodata.com/5-benefits-of-static-graphql-queries-b7fa90b0b69a#.aivjojbvf
+            // check also repo
 
             // Operation Name should match that on the Query
             var result = await ExecuteAsync(_schema, null, queryToExecute, query.OperationName, inputs).ConfigureAwait(true);

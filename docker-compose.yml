@@ -2,14 +2,14 @@ version: '2'
 
 services:
 
-  aspnetcoreapp:
+  zervo_api_1:
     container_name: 'zervo_api_1'
     image: 'aspnetcoreapp:zervo'
     build:
       context: .
       dockerfile: aspnetcore.staging.dockerfile
     volumes:
-      - .:/app
+      - /app
     ports:
      - "5091:5090"
     depends_on:
@@ -17,11 +17,11 @@ services:
     networks:
       - aspnetcoreapp-network
 
-  aspnetcoreapp:
+  zervo_api_2:
     container_name: 'zervo_api_2'
     image: 'aspnetcoreapp:zervo'
     volumes:
-      - .:/app
+      - /app
     ports:
      - "5092:5090"
     depends_on:
@@ -48,8 +48,8 @@ services:
       - "5000:80"
       - "5001:443"
     links:
-      - zervo1
-      - zervo2
+      - zervo_api_1
+      - zervo_api_2
     networks:
       - aspnetcoreapp-network
 

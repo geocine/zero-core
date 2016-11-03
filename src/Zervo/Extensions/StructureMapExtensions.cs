@@ -39,7 +39,7 @@ namespace Zervo.Extensions
         public static void DecorateMediator(this ConfigurationExpression config)
         {
             // Learn about Decorators
-            // https://lostechies.com/jimmybogard/2014/09/09/tackling-cross-cutting-concerns-with-a-mediator-pipeline/
+            // https://lostechies.com/jimmybogard/2016/10/13/mediatr-pipeline-examples/
             var asyncHandlerType = config.For(typeof(IAsyncRequestHandler<,>));
             // Add pre/post handlers like middleware handlers to a mediator request
             asyncHandlerType.DecorateAllWith(typeof(AsyncMediatorPipeline<,>));
